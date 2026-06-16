@@ -1,0 +1,7 @@
+# API
+flask-cors
+flask
+
+# Python
+datetime
+peewee
