@@ -46,13 +46,15 @@ export default function SalaList() {
     return <div className="p-4 text-center">Carregando salas...</div>;
 
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-16 font-['Inter'] text-black bg-[#FAF9F6]">
       <SalaForm onSuccess={fetchSalas} />
       <Table.Root>
         <Table.Head>
           <Table.Row>
             <Table.HeaderCell>Número</Table.HeaderCell>
             <Table.HeaderCell>Local</Table.HeaderCell>
+            <Table.HeaderCell>Capacidade</Table.HeaderCell>
+            <Table.HeaderCell>Tipo de Tela</Table.HeaderCell>
             <Table.HeaderCell>Ação</Table.HeaderCell>
           </Table.Row>
         </Table.Head>
@@ -63,15 +65,17 @@ export default function SalaList() {
               cellsContent={[
                 sala.numero_sala,
                 sala.local,
+                sala.capacidade,
+                sala.tipo_tela,
                 <button
                   key="delete"
                   onClick={() => {
                     if (typeof sala.id_sala === "number")
                       handleDelete(sala.id_sala);
                   }}
-                  className="text-red-500"
+                  className="text-red-500 hover:text-red-700 transition-colors"
                 >
-                  <Trash />
+                  <Trash size={18} />
                 </button>,
               ]}
             />
@@ -81,3 +85,4 @@ export default function SalaList() {
     </div>
   );
 }
+

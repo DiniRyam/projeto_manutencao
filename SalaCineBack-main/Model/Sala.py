@@ -5,21 +5,27 @@ class Sala(BaseModel):
     id_sala = AutoField(primary_key=True)
     numero_sala = IntegerField(unique=True)
     local = CharField(max_length=100)
+    # AQUI ESTÃO OS NOVOS CAMPOS
+    capacidade = IntegerField()
+    tipo_tela = CharField(max_length=50)
 
+    # passando capacidade e tipo_tela
     @classmethod
-    def create(cls, numero_sala=int, local=str):
+    def create(cls, numero_sala: int, local: str, capacidade: int, tipo_tela: str):
         return super().create(
             numero_sala=numero_sala,
             local=local,
+            capacidade=capacidade,
+            tipo_tela=tipo_tela
         )
 
     @classmethod
-    def readByNumero(cls, numero_sala=int):
+    def readByNumero(cls, numero_sala: int):
         return cls.get_or_none(cls.numero_sala == numero_sala)
 
     @classmethod
-    def readIdSala(self):
-        return self.id_sala
+    def readIdSala(cls):
+        return cls.id_sala
 
     @classmethod
     def update(cls, id_sala, **kwargs):

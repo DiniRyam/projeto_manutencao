@@ -4,13 +4,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createSala } from "@/services/salaService";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import FloatingLabelInput from "./FloatingLabelInput";
 import CustomButton from "./CustomButton";
 import { Plus, Ban } from "lucide-react";
 
 interface SalaFormProps {
-  onSuccess?: () => void; // Adicione esta linha
+  onSuccess?: () => void;
 }
 
 const validationSchema = Yup.object().shape({
@@ -21,6 +20,12 @@ const validationSchema = Yup.object().shape({
   local: Yup.string()
     .max(100, "A localização deve ter no máximo 100 caracteres")
     .required("A localização é obrigatória"),
+  capacidade: Yup.number()
+    .integer("A capacidade deve ser um número inteiro")
+    .min(1, "A capacidade mínima é de 1 lugar")
+    .required("A capacidade é obrigatória"),
+  tipo_tela: Yup.string()
+    .required("O tipo de tela é obrigatório"),
 });
 
 export default function SalaForm({ onSuccess }: Readonly<SalaFormProps>) {
@@ -28,6 +33,8 @@ export default function SalaForm({ onSuccess }: Readonly<SalaFormProps>) {
     initialValues: {
       numero_sala: "",
       local: "",
+      capacidade: "",
+      tipo_tela: "",
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
@@ -35,6 +42,7 @@ export default function SalaForm({ onSuccess }: Readonly<SalaFormProps>) {
         const dataToSend = {
           ...values,
           numero_sala: Number(values.numero_sala),
+          capacidade: Number(values.capacidade),
         };
         const salaCriada = await createSala(dataToSend);
         toast.success(
@@ -55,7 +63,6 @@ export default function SalaForm({ onSuccess }: Readonly<SalaFormProps>) {
       className="w-[750px] mx-auto px-5 pb-5 flex flex-col gap-10"
       style={{ paddingTop: "0px" }}
     >
-      {/* Linha 1: Grupo de Texto*/}
       <div className="text-center">
         <h2 className="text-2xl">Adicionar Sala</h2>
         <h3 className="text-[#969696] text-lg">
@@ -63,7 +70,6 @@ export default function SalaForm({ onSuccess }: Readonly<SalaFormProps>) {
         </h3>
       </div>
 
-      {/* Linha 2: Grupo de Inputs */}
       <div className="flex flex-col gap-8">
         <div className="flex gap-5">
           <div className="flex-1">
@@ -72,7 +78,7 @@ export default function SalaForm({ onSuccess }: Readonly<SalaFormProps>) {
               name="numero_sala"
               label="Número da Sala"
               type="number"
-              value={formik.values.numero_sala}
+              value={formik.values.numero_sala || ""}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               touched={formik.touched.numero_sala}
@@ -80,22 +86,57 @@ export default function SalaForm({ onSuccess }: Readonly<SalaFormProps>) {
               min={1}
             />
           </div>
+          <div className="flex-1">
+            <FloatingLabelInput
+              id="capacidade"
+              name="capacidade"
+              label="Capacidade (Nº de Assentos)"
+              type="number"
+              value={formik.values.capacidade || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              touched={formik.touched.capacidade }
+              error={formik.errors.capacidade}
+              min={1}
+            />
+          </div>
         </div>
-        <div>
-          <FloatingLabelInput
-            id="local"
-            name="local"
-            label="Localização da sala"
-            value={formik.values.local}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            touched={formik.touched.local}
-            error={formik.errors.local}
-          />
+        <div className="flex gap-5">
+          <div className="flex-1">
+            <FloatingLabelInput
+              id="local"
+              name="local"
+              label="Localização (Ex: Piso 1)"
+              value={formik.values.local}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              touched={formik.touched.local}
+              error={formik.errors.local}
+            />
+          </div>
+          <div className="flex-1">
+            <FloatingLabelInput
+              id="tipo_tela"
+              name="tipo_tela"
+              label="Tipo de Tela (Ex: 2D, 3D, IMAX)"
+              type="select"
+              value={formik.values.tipo_tela}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              touched={formik.touched.tipo_tela}
+              error={formik.errors.tipo_tela}
+              options={[
+                { value: "", label: "Selecione a tecnologia" },
+                { value: "2D", label: "Padrão 2D" },
+                { value: "3D", label: "Projeção 3D" },
+                { value: "IMAX", label: "IMAX" },
+                { value: "XD", label: "Extreme Digital (XD)" },
+              ]}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Linha 3: Grupo de Botões */}
       <div className="flex gap-5">
         <CustomButton
           type="button"

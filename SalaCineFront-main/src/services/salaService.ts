@@ -25,9 +25,14 @@ export const createSala = async (dados: CriarSalaDTO): Promise<Sala> => {
 
 export const getSalas = async (): Promise<Sala[]> => {
   try {
-    const response = await api.get<ApiResponse>("/salas");
+    const response = await api.get<any>("/salas");
     return response.data.salas;
-  } catch (error) {
+  } catch (error: any) {
+
+    // se nao tiver salas retorna a lista vazia pra a tela n quebrar
+    if (error.response && error.response.status === 404) {
+      return [];
+    }
     console.error("Erro ao buscar salas:", error);
     throw error;
   }

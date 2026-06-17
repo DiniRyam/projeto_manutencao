@@ -8,7 +8,8 @@ sala_bp = Blueprint('sala', __name__)
 def createSala():
     data = request.get_json()
 
-    required_fields = ['numero_sala', 'local']
+    # adiciona capacidade e tipo na tela
+    required_fields = ['numero_sala', 'local', 'capacidade', 'tipo_tela']
     if not all(field in data for field in required_fields):
         return jsonify({
             'error': 'Campos obrigatórios faltando',
@@ -22,9 +23,12 @@ def createSala():
                 'numero_sala': data['numero_sala']
             }), 409
 
+        # novos campos pro controller
         sala = SalaController.create(
             numero_sala=data['numero_sala'],
             local=data['local'],
+            capacidade=int(data['capacidade']),
+            tipo_tela=data['tipo_tela']
         )
 
     except ValueError as e:
