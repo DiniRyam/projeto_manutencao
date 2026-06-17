@@ -2,6 +2,6 @@
 flask-cors
 flask
 
-# Python
-datetime
+# Banco de Dados e ORM
 peewee
+psycopg2-binary

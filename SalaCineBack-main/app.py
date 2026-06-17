@@ -6,6 +6,7 @@ from Model.Connect import initializeDB
 from View.SessaoView import sessao_bp
 from View.FilmeView import filme_bp
 from View.SalaView import sala_bp
+from View.ManutencaoView import manutencao_bp
 
 class CustomJSONProvider(DefaultJSONProvider):
     def __init__(self, app):
@@ -19,6 +20,7 @@ CORS(app)
 app.register_blueprint(filme_bp,  url_prefix='/api')
 app.register_blueprint(sala_bp,   url_prefix='/api')
 app.register_blueprint(sessao_bp, url_prefix='/api')
+app.register_blueprint(manutencao_bp, url_prefix='/api')
 initializeDB()
 
 @app.route('/')
@@ -30,7 +32,8 @@ def home():
             "sessoes": "/api/sessoes",
             "salas  ": "/api/salas",
             "generos": "/api/generos",
-            "poster ": "/api/filmes/<int:id_filme>/poster"
+            "poster ": "/api/filmes/<int:id_filme>/poster",
+            "manutencao": "/api/manutencao"
         },
         "usage": "Use os endpoints acima para interagir com a API."
     })

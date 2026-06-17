@@ -8,7 +8,8 @@ class ManutencaoController:
 
     @staticmethod
     def read():
-        # Lista as solicitações da mais recente para a mais antiga
+        
+        #aqui tem as lista de soluções da mais nova para a mais antiga 
         solicitacoes = SolicitacaoManutencao.select().order_by(SolicitacaoManutencao.data_registro.desc())
         return [ManutencaoController._formatOutput(s) for s in solicitacoes]
 

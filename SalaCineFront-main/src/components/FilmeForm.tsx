@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { createFilm, updateFilme } from "@/services/filmeService";
 import { toast } from "react-toastify";
 import FloatingLabelInput from "./FloatingLabelInput";
-import "react-toastify/dist/ReactToastify.css";
 import CustomButton from "./CustomButton";
 import { Plus, Ban, Upload } from "lucide-react";
 import FloatingLabelFileInput from "./FloatingLabelFileInput";

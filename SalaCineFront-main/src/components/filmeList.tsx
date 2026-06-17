@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Filme } from "@/types/Filme";
-import { getFilmes, deleteFilme, getFilmeById } from "@/services/filmeService";
+import {getFilmes,deleteFilme,getFilmeById,
+} from "@/services/filmeService";
 import { Table } from "@/components/Table";
 import FilmeForm from "./FilmeForm";
 import { toast } from "react-toastify";
@@ -12,6 +13,9 @@ export default function SalaList() {
   const [filmes, setFilmes] = useState<Filme[]>([]);
   const [loading, setLoading] = useState(true);
   const [filmeParaEditar, setFilmeParaEditar] = useState<Filme | null>(null);
+
+  // Estado da busca
+  const [termoBusca, setTermoBusca] = useState("");
 
   useEffect(() => {
     fetchFilmes();
@@ -36,12 +40,15 @@ export default function SalaList() {
     try {
       await deleteFilme(id.toString());
       await fetchFilmes();
+
       if (filmeParaEditar?.id_filme === id) {
         setFilmeParaEditar(null);
       }
+
+      toast.success("Filme excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir filme:", error);
-      alert("Erro ao excluir filme");
+      toast.error("Erro ao excluir filme.");
     }
   };
 
@@ -60,65 +67,106 @@ export default function SalaList() {
     fetchFilmes();
   };
 
-  if (loading)
-    return <div className="p-4 text-center">Carregando filmes...</div>;
+  // Lista filtrada pela busca
+  const filmesFiltrados = filmes.filter((filme) =>
+    (filme.titulo ?? "")
+      .toLowerCase()
+      .includes(termoBusca.toLowerCase())
+  );
 
-  if (filmes.length === 0)
-    return <div className="p-4 text-center">Nenhum filme encontrado.</div>;
+  if (loading) {
+    return (
+      <div className="p-4 text-center">
+        Carregando filmes...
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-16 font-['Inter'] text-black bg-[#FAF9F6]">
       <FilmeForm
         filmeParaEditar={filmeParaEditar ?? undefined}
         onSuccess={handleSuccess}
         onCancel={() => setFilmeParaEditar(null)}
       />
 
+      {/* Barra de Busca */}
+      <div className="w-full max-w-md mx-auto px-5 -mb-8">
+        <input
+          type="text"
+          placeholder="Buscar filme por título..."
+          value={termoBusca}
+          onChange={(e) => setTermoBusca(e.target.value)}
+          className="w-full border border-gray-300 bg-white p-3 outline-none focus:border-black transition-colors"
+        />
+      </div>
+
       {filmes.length === 0 ? (
-        <div className="p-4 text-center">Nenhum filme encontrado.</div>
+        <div className="p-4 text-center">
+          Nenhum filme encontrado.
+        </div>
       ) : (
-        <Table.Root>
-          <Table.Head>
-            <Table.Row>
-              <Table.HeaderCell>Título</Table.HeaderCell>
-              <Table.HeaderCell>Diretor</Table.HeaderCell>
-              <Table.HeaderCell>Classificação</Table.HeaderCell>
-              <Table.HeaderCell>Duração</Table.HeaderCell>
-              <Table.HeaderCell>Ações</Table.HeaderCell>
-            </Table.Row>
-          </Table.Head>
-          <Table.Body>
-            {filmes.map((filme) => (
-              <Table.Row
-                key={filme.id_filme}
-                cellsContent={[
-                  filme.titulo,
-                  filme.diretor,
-                  filme.classificacao,
-                  filme.duracao,
-                  <div key={filme.id_filme} className="flex gap-6">
-                    <button
-                      onClick={() => {
-                        if (filme.id_filme) handleDelete(filme.id_filme);
-                      }}
-                      className="text-red-500"
+        <>
+          <Table.Root>
+            <Table.Head>
+              <Table.Row>
+                <Table.HeaderCell>Título</Table.HeaderCell>
+                <Table.HeaderCell>Diretor</Table.HeaderCell>
+                <Table.HeaderCell>Classificação</Table.HeaderCell>
+                <Table.HeaderCell>Duração</Table.HeaderCell>
+                <Table.HeaderCell>Ações</Table.HeaderCell>
+              </Table.Row>
+            </Table.Head>
+
+            <Table.Body>
+              {filmesFiltrados.map((filme) => (
+                <Table.Row
+                  key={filme.id_filme}
+                  cellsContent={[
+                    filme.titulo,
+                    filme.diretor,
+                    filme.classificacao,
+                    filme.duracao,
+                    <div
+                      key={filme.id_filme}
+                      className="flex gap-6"
                     >
-                      <Trash />
-                    </button>
-                    <button
-                      onClick={() =>
-                        filme.id_filme && handleEdit(filme.id_filme)
-                      }
-                      className="text-[#FF9809]"
-                    >
-                      <Pencil />
-                    </button>
-                  </div>,
-                ]}
-              />
-            ))}
-          </Table.Body>
-        </Table.Root>
+                      <button
+                        onClick={() => {
+                          if (filme.id_filme) {
+                            handleDelete(filme.id_filme);
+                          }
+                        }}
+                        className="text-red-500 hover:text-red-700 transition-colors"
+                        title="Excluir"
+                      >
+                        <Trash size={18} />
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          if (filme.id_filme) {
+                            handleEdit(filme.id_filme);
+                          }
+                        }}
+                        className="text-[#FF9809] hover:text-orange-600 transition-colors"
+                        title="Editar"
+                      >
+                        <Pencil size={18} />
+                      </button>
+                    </div>,
+                  ]}
+                />
+              ))}
+            </Table.Body>
+          </Table.Root>
+
+          {filmesFiltrados.length === 0 && (
+            <div className="p-4 text-center text-gray-500">
+              Nenhum filme corresponde à sua busca.
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -1,11 +1,14 @@
-from peewee import SqliteDatabase, Model
-import os
+from peewee import Model
+from playhouse.db_url import connect
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(base_dir, '..', 'Data', 'cinema.db')
-os.makedirs(os.path.dirname(db_path), exist_ok=True)
+# Lê a senha do txt
+with open("db_password.txt", "r") as f:
+    DB_PASSWORD = f.read().strip()
 
-db = SqliteDatabase(db_path)
+# MOnta a url de conexão com o banco supabase
+DATABASE_URL = f"postgresql://postgres:{DB_PASSWORD}@db.utkvotwwqkrcvpcbgplf.supabase.co:5432/postgres"
+
+db = connect(DATABASE_URL)
 
 class BaseModel(Model):
     class Meta:

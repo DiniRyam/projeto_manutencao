@@ -14,7 +14,12 @@ export const getFilmes = async (): Promise<Filme[]> => {
   try {
     const response = await api.get<Filme[]>("/filmes");
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
+
+    // Se o erro for 404 ele retorna uma lista vazia pra a tela nao quebrar denovo
+    if (error.response && error.response.status === 404) {
+      return [];
+    }
     console.error("Erro ao buscar filmes:", error);
     throw error;
   }
