@@ -4,11 +4,6 @@ import { Sala } from "@/types/Sala";
 // Tipo para criação (remove campos auto-gerados)
 type CriarSalaDTO = Omit<Sala, "id_sala">;
 
-interface ApiResponse {
-  message: string;
-  salas: Sala[];
-}
-
 export const createSala = async (dados: CriarSalaDTO): Promise<Sala> => {
   try {
     const response = await api.post<{
