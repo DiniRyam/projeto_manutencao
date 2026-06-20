@@ -17,7 +17,7 @@ export default function ManutencaoPage() {
             setStatusMensagem('Solicitação registada com sucesso!');
             setTitulo('');
             setDescricao('');
-        } catch (error) {
+        } catch (_error) {
             setStatusMensagem('Erro ao registar a solicitação. Tente novamente.');
         }
     };

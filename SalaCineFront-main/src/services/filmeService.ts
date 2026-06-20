@@ -12,13 +12,14 @@ export const createFilm = async (formData: FormData): Promise<Filme> => {
 
 export const getFilmes = async (): Promise<Filme[]> => {
   try {
-    const response = await api.get<Filme[]>("/filmes");
-    return response.data;
-  } catch (error: any) {
-
-    // Se o erro for 404 ele retorna uma lista vazia pra a tela nao quebrar denovo
-    if (error.response && error.response.status === 404) {
-      return [];
+    const response = await api.get<{ filmes: Filme[] }>("/filmes");
+    return response.data.filmes;
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'response' in error) {
+      const axiosError = error as { response?: { status?: number } };
+      if (axiosError.response?.status === 404) {
+        return [];
+      }
     }
     console.error("Erro ao buscar filmes:", error);
     throw error;
