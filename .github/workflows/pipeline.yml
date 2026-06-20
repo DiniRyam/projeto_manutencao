@@ -1,0 +1,49 @@
+name: SalaCine CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validar-frontend:
+    name: Build e Validação do Frontend (Next.js)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./SalaCineFront-main
+    
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+        
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Instalar Dependências
+        run: npm install
+        
+      - name: Verificar Compilação (Build)
+        run: npm run build
+
+  validar-backend:
+    name: Build e Validação do Backend (Flask/Python)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./SalaCineBack-main
+        
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+        
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Instalar Dependências
+        run: pip install -r requirements.txt
