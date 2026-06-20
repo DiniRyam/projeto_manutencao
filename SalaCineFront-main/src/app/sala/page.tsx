@@ -1,4 +1,4 @@
-import SalaList from "@/components/SalaList";
+import SalaList from "@/components/salaList";
 
 export default function SalaPage() {
   return (

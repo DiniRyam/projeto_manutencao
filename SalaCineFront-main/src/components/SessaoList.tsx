@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { SessaoOutput } from "@/types/Sessao";
 import { getSessoes, deleteSessao } from "@/services/sessaoService";
 import { Table } from "@/components/Table";
-import SessaoForm from "./SessaoForm";
+import SessaoForm from "./sessaoForm";
 import { Trash } from "lucide-react";
 
 export default function SessaoList() {

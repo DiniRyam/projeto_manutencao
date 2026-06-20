@@ -5,7 +5,8 @@ class Sala(BaseModel):
     id_sala = AutoField(primary_key=True)
     numero_sala = IntegerField(unique=True)
     local = CharField(max_length=100)
-    # AQUI ESTÃO OS NOVOS CAMPOS
+    
+    # novos campos pra deixar mais bunito
     capacidade = IntegerField()
     tipo_tela = CharField(max_length=50)
 
