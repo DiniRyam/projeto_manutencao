@@ -10,19 +10,12 @@ export const createFilm = async (formData: FormData): Promise<Filme> => {
   return response.data.filme;
 };
 
-export const getFilmes = async (): Promise<Filme[]> => {
+export const getFilmes = async () => {
   try {
-    const response = await api.get<{ filmes: Filme[] }>("/filmes");
-    return response.data.filmes;
-  } catch (error: unknown) {
-    if (typeof error === 'object' && error !== null && 'response' in error) {
-      const axiosError = error as { response?: { status?: number } };
-      if (axiosError.response?.status === 404) {
-        return [];
-      }
-    }
-    console.error("Erro ao buscar filmes:", error);
-    throw error;
+    const response = await api.get('/filmes');
+    return response.data;
+  } catch (error) {
+    return [];
   }
 };
 

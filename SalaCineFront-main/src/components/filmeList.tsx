@@ -68,7 +68,7 @@ export default function SalaList() {
   };
 
   // Lista filtrada pela busca
-  const filmesFiltrados = filmes.filter((filme) =>
+  const filmesFiltrados = (filmes || []).filter((filme) =>
     (filme.titulo ?? "")
       .toLowerCase()
       .includes(termoBusca.toLowerCase())
@@ -101,7 +101,7 @@ export default function SalaList() {
         />
       </div>
 
-      {filmes.length === 0 ? (
+      {(filmes || []).length === 0 ? (
         <div className="p-4 text-center">
           Nenhum filme encontrado.
         </div>

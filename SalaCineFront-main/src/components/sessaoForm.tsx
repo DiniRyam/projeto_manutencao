@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createSessao } from "@/services/sessaoService";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import FloatingLabelInput from "./FloatingLabelInput";
 import CustomButton from "./CustomButton";
 import { Plus, Ban } from "lucide-react";
@@ -15,7 +14,7 @@ import { getFilmes } from "@/services/filmeService";
 import { getSalas } from "@/services/salaService";
 
 interface SessaoFormProps {
-  onSuccess?: () => void; // Adicione esta linha
+  onSuccess?: () => void; 
 }
 
 const validationSchema = Yup.object().shape({
@@ -62,7 +61,6 @@ export default function SessaoForm({ onSuccess }: Readonly<SessaoFormProps>) {
         const dataHoraFormatada = new Date(values.data_hora).toISOString();
 
         console.log("Dados sendo enviados:", {
-          // 👈 Adicione isso
           data_hora: dataHoraFormatada,
           filme_id: Number(values.filme),
           sala_id: Number(values.sala),
@@ -74,14 +72,14 @@ export default function SessaoForm({ onSuccess }: Readonly<SessaoFormProps>) {
           sala_id: Number(values.sala),
         });
 
-        console.log("Resposta da API:", sessaoCriada); // 👈 Adicione isso
+        console.log("Resposta da API:", sessaoCriada);
 
         // Se chegou aqui, a sessão foi criada!
         toast.success("Sessão criada com sucesso!");
         resetForm();
         onSuccess?.();
       } catch (error) {
-        console.error("Erro completo:", error); // 👈 Mostra detalhes reais
+        console.error("Erro completo:", error);
         toast.error(
           "Falha ao criar sessão: " +
             (error instanceof Error ? error.message : "Erro desconhecido")
@@ -118,7 +116,7 @@ export default function SessaoForm({ onSuccess }: Readonly<SessaoFormProps>) {
               onBlur={formik.handleBlur}
               touched={formik.touched.filme}
               error={formik.errors.filme}
-              options={filmes.map((filme) => ({
+              options={(filmes || []).map((filme) => ({
                 value:
                   filme.id_filme !== undefined ? filme.id_filme.toString() : "",
                 label: `${filme.titulo}`,

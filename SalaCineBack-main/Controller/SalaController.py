@@ -2,7 +2,6 @@ from peewee import DoesNotExist
 from Model.Sala import Sala
 
 class SalaController:
-    # AQUI ESTAVA O ERRO: Faltava receber os novos campos na criação
     @staticmethod
     def create(numero_sala: int, local: str, capacidade: int, tipo_tela: str):
         return Sala.create(
