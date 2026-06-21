@@ -14,8 +14,8 @@ export const getFilmes = async () => {
   try {
     const response = await api.get('/filmes');
     return response.data;
-  } catch (error) {
-    return [];
+  } catch {
+    return []; 
   }
 };
 
