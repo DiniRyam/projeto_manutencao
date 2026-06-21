@@ -1,11 +1,11 @@
+import os
 from peewee import Model
 from playhouse.db_url import connect
 
-# Lê a senha do txt
-with open("db_password.txt", "r") as f:
-    DB_PASSWORD = f.read().strip()
+# Pega a senha com segurança diretamente do servidor da Vercel
+DB_PASSWORD = os.environ.get('DB_PASSWORD', 'sua_senha_aqui_caso_rode_local')
 
-# MOnta a url de conexão com o banco supabase
+# Monta a url de conexão com o banco supabase
 DATABASE_URL = f"postgresql://postgres:{DB_PASSWORD}@db.utkvotwwqkrcvpcbgplf.supabase.co:5432/postgres"
 
 db = connect(DATABASE_URL)
