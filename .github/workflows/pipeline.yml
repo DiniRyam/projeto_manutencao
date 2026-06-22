@@ -8,14 +8,14 @@ on:
 
 jobs:
   validar-frontend:
-    name: Build e Validação do Frontend (Next.js)
+    name: Build e Validacao do Frontend (Next.js)
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./SalaCineFront-main
     
     steps:
-      - name: Checkout do Repositório
+      - name: Checkout do Repositorio
         uses: actions/checkout@v4
         
       - name: Configurar Node.js
@@ -23,21 +23,25 @@ jobs:
         with:
           node-version: '20'
           
-      - name: Instalar Dependências
+      - name: Instalar Dependencias
         run: npm install
+
+      # Auditoria de seguranca
+      - name: Auditoria de Seguranca de Pacotes
+        run: npm audit
         
-      - name: Verificar Compilação (Build)
+      - name: Verificar Compilacao (Build)
         run: npm run build
 
   validar-backend:
-    name: Build e Validação do Backend (Flask/Python)
+    name: Build e Validacao do Backend (Flask/Python)
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./SalaCineBack-main
         
     steps:
-      - name: Checkout do Repositório
+      - name: Checkout do Repositorio
         uses: actions/checkout@v4
         
       - name: Configurar Python
@@ -45,5 +49,7 @@ jobs:
         with:
           python-version: '3.11'
           
-      - name: Instalar Dependências
+      - name: Instalar Dependencias
         run: pip install -r requirements.txt
+        
+      # O Deploy Continuo (CD) e gerido automaticamente pela Vercel 
