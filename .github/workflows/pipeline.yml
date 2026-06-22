@@ -28,7 +28,7 @@ jobs:
 
       # Auditoria de seguranca
       - name: Auditoria de Seguranca de Pacotes
-        run: npm audit
+        run: npm audit --audit-level=high
         
       - name: Verificar Compilacao (Build)
         run: npm run build
