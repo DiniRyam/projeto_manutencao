@@ -40,6 +40,15 @@ export default function Navbar() {
         >
           Sala
         </Link>
+        {/* Aba de Manutenção apontando para o GitHub */}
+        <a
+          href="https://github.com/DiniRyam/projeto_manutencao/issues" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="relative pb-2 hover:border-b-2 hover:border-[#181818] transition-all"
+        >
+          Solicitar Manutenção
+        </a>
       </div>
 
       <div className="w-[45px]"></div>
