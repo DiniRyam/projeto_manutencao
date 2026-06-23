@@ -14,12 +14,30 @@ interface ApiResponse {
 
 export const createSessao = async (dados: CriarSessaoDTO): Promise<Sessao> => {
   try {
+    let dataHoraCorrigida = dados.data_hora;
+
+    if (dataHoraCorrigida.includes('Z')) {
+      const dataObj = new Date(dataHoraCorrigida);
+      const compensacaoFuso = dataObj.getTimezoneOffset() * 60000;
+      
+      // Retira a diferença do fuso'
+      dataHoraCorrigida = new Date(dataObj.getTime() - compensacaoFuso)
+        .toISOString()
+        .slice(0, 19)
+        .replace('T', ' '); 
+    }
+
+    const payload = {
+      ...dados,
+      data_hora: dataHoraCorrigida
+    };
+
     const response = await api.post<{
       message: string;
       sessao?: Sessao;   
       sessão?: Sessao;  
       id_sessao?: number;
-    }>("/sessoes", dados);
+    }>("/sessoes", payload);
 
     const sessaoCriada = response.data.sessao || response.data.sessão;
 
