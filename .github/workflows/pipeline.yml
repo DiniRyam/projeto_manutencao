@@ -29,6 +29,10 @@ jobs:
       # Auditoria de seguranca
       - name: Auditoria de Seguranca de Pacotes
         run: npm audit --audit-level=high
+
+      # teste simples do jest para ver se a tela renderiza
+      - name: Executar Testes de Interface (Jest)
+        run: npm run test
         
       - name: Verificar Compilacao (Build)
         run: npm run build
@@ -51,5 +55,9 @@ jobs:
           
       - name: Instalar Dependencias
         run: pip install -r requirements.txt
+
+      # os testes simples do pytest
+      - name: Executar Testes da API e Banco de Dados (Pytest)
+        run: pytest test_api.py
         
-      # O Deploy Continuo (CD) e gerido automaticamente pela Vercel 
+      # O Deploy Continuo (CD) e gerido automaticamente pela Vercel

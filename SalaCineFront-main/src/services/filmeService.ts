@@ -57,4 +57,3 @@ export async function updateFilme(
 ) {
   return await api.put(`/filmes/${id}`, data);
 }
-
