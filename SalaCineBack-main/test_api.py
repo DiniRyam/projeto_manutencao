@@ -10,7 +10,7 @@ def client():
 
 def test_api_deve_estar_online(client):
     """teste 1 para verifica se a API subiu e responde na rota de filmes"""
-    resposta = client.get('/filmes')
+    resposta = client.get('/api/filmes')
     
     # Se a rota existe, não pode devolver 404
     assert resposta.status_code != 404
