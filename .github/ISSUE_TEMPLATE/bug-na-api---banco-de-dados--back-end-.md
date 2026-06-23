@@ -7,15 +7,23 @@ assignees: ''
 
 ---
 
+##  Checklist de Triagem
+- [ ] O erro ocorre mesmo com o banco de dados online.
+- [ ] Confirmei que o erro persiste após rodar `pip install -r requirements.txt`.
+
 ##  Descrição da Falha
 Explique a falha lógica, de cálculo ou de integração que ocorreu no servidor.
 
 ##  Rota Afetada
-* **Método:** [ex: GET, POST, PUT, DELETE]
-* **Endpoint:** [ex: `/api/sessoes`]
+- **Método:** `GET` / `POST` / `PUT` / `DELETE`
+- **Endpoint:** `/api/...`
 
-##  Payload da Requisição se possivel
+##  Payload da Requisição
+Se a requisição enviou dados para a API, cole-os no formato JSON abaixo:
+
 ```json
 {
-  "campo": "cole aqui os dados que foram enviados para a API"
+  "filme_id": 1,
+  "sala_id": 2,
+  "data_hora": "2026-06-23T14:00:00.000Z"
 }
