@@ -56,8 +56,10 @@ jobs:
       - name: Instalar Dependencias
         run: pip install -r requirements.txt
 
-      # os testes simples do pytest
+      # pquenos testes do pytest 
       - name: Executar Testes da API e Banco de Dados (Pytest)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: pytest test_api.py
         
       # O Deploy Continuo (CD) e gerido automaticamente pela Vercel
