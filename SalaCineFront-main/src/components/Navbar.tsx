@@ -42,7 +42,7 @@ export default function Navbar() {
         </Link>
         {/* Aba de Manutenção apontando para o GitHub */}
         <a
-          href="https://github.com/DiniRyam/projeto_manutencao/issues" 
+          href=" https://forms.gle/Dxs7vLMzHdkbHzht8" 
           target="_blank" 
           rel="noopener noreferrer"
           className="relative pb-2 hover:border-b-2 hover:border-[#181818] transition-all"
